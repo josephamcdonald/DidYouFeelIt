@@ -35,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new GetEarthquakeDataTask().execute(USGS_REQUEST_URL);
+        new EarthquakeAsyncTask().execute(USGS_REQUEST_URL);
 
     }
 
-    private class GetEarthquakeDataTask extends AsyncTask<String, Void, Event> {
+    private class EarthquakeAsyncTask extends AsyncTask<String, Void, Event> {
 
         /**
          * Defines work to perform on the background thread.
@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Event doInBackground(String... url) {
 
+            // Don't perform the request if there are no URLs, or the first URL is null.
+            if (url.length < 1 || url[0] == null) {
+                return null;
+            }
             // Perform the HTTP request for earthquake data and process the response.
             return Utils.fetchEarthquakeData(url[0]);
         }
@@ -54,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Event result) {
 
+            // If there is no result, do nothing.
+            if (result == null) {
+                return;
+            }
             updateUi(result);
         }
     }

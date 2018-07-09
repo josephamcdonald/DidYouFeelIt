@@ -15,7 +15,6 @@
  */
 package com.example.android.didyoufeelit;
 
-import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -39,7 +38,7 @@ import java.nio.charset.Charset;
 public final class Utils {
 
     /** Tag for the log messages */
-    public static final String LOG_TAG = Utils.class.getSimpleName();
+    private static final String LOG_TAG = Utils.class.getSimpleName();
 
     /**
      * Query the USGS dataset and return an {@link Event} object to represent a single earthquake.
@@ -57,10 +56,7 @@ public final class Utils {
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        Event earthquake = extractFeatureFromJson(jsonResponse);
-
-        // Return the {@link Event}
-        return earthquake;
+        return extractFeatureFromJson(jsonResponse);
     }
 
     /**
